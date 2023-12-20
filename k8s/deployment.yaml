@@ -1,11 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cosmeaf-deployment
-  labels:
-    app: web-app
+  name: web-app-deployment
+  namespace: kube-cosme-cluster
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
       app: web-app
@@ -15,37 +14,7 @@ spec:
         app: web-app
     spec:
       containers:
-      - name: web-app
-        image: cosmeaf/cosmeaf_image:latest
-        ports:
-        - containerPort: 3000
-        env:
-        - name: TYPEORM_CONNECTION
-          value: mysql
-        - name: TYPEORM_HOST
-          value: mysql-service
-        - name: TYPEORM_PORT
-          value: "3306"
-        - name: TYPEORM_USERNAME
-          value: test
-        - name: TYPEORM_PASSWORD
-          value: test
-        - name: TYPEORM_DATABASE
-          value: test
-        - name: TYPEORM_SYNCHRONIZE
-          value: "true"
-        - name: TYPEORM_ENTITIES
-          value: src/entity/*.js
-        - name: TYPEORM_MIGRATIONS
-          value: src/migration/*.js
-        - name: TYPEORM_MIGRATIONS_DIR
-          value: src/migration
-      volumes:
-      - name: kube-api-access-8248n
-        projected:
-          sources:
-          - serviceAccountToken:
-              path: "token"
-              expirationSeconds: 3607
-              audience: "api"
-
+        - name: web-app-container
+          image: cosmeaf/cosmeaf_image:latest
+          ports:
+            - containerPort: 3000

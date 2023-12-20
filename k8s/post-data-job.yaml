@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: post-data-job
+  namespace: kube-cosme-cluster
+spec:
+  template:
+    spec:
+      containers:
+        - name: post-data-container
+          image: cosmeaf/cosmeaf_image:latest
+          command: ["/bin/bash"]
+          args:
+            - "-c"
+            - "/app/post_data.sh"
+      restartPolicy: Never

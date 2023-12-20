@@ -20,15 +20,35 @@ docker run -it -p 3306:3306 \
 -e MYSQL_PASSWORD=test \
 -d mariadb:5.5
 
+
 yarn typeorm migration:run
 yarn install
 
 kubectl create secret docker-registry docker-registry-secret \
   --docker-server=https://index.docker.io/v1/ \
   --docker-username=cosmeaf \
-  --docker-password=Canela_32 \
+  --docker-password=qweasd32 \
   --docker-email=cosme.alex@gmail.com
   
 kubectl apply -f k8s/deployment.yaml --namespace=kube-cosme-cluster
 kubectl apply -f k8s/service.yaml --namespace=kube-cosme-cluster
 
+kubectl apply -f k8s/mysql-deployment.yaml --namespace=kube-cosme-cluster
+kubectl apply -f k8s/mysql-service.yaml --namespace=kube-cosme-cluster
+
+kubectl get pods --namespace=kube-cosme-cluster
+kubectl get jobs --namespace=kube-cosme-cluster
+
+
+minikube profile list   
+kubectl config get-contexts
+kubectl get pods
+kubectl get services
+
+kubectl describe pod NOME_DO_SEU_POD
+kubectl logs NOME_DO_SEU_POD
+
+
+# EXCLUDE
+minikube delete -p minikube
+minikube delete -p comes-cluster -n kube-cosme-cluster

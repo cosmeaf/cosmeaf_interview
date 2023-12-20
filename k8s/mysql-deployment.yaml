@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql-deployment
+  namespace: kube-cosme-cluster
 spec:
   replicas: 1
   selector:
@@ -13,15 +14,16 @@ spec:
         app: mysql
     spec:
       containers:
-      - name: mysql
-        image: mariadb:5.5
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: test
-        - name: MYSQL_DATABASE
-          value: test
-        - name: MYSQL_USER
-          value: test
-        - name: MYSQL_PASSWORD
-          value: test
-
+        - name: mysql-container
+          image: mariadb:5.5
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: test
+            - name: MYSQL_DATABASE
+              value: test
+            - name: MYSQL_USER
+              value: test
+            - name: MYSQL_PASSWORD
+              value: test

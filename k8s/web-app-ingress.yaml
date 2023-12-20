@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-app-ingress
+  namespace: kube-cosme-cluster
+spec:
+  rules:
+    - host: "85.31.231.240.nip.io"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web-app-service
+                port:
+                  number: 80
