@@ -1,0 +1,99 @@
+# CRIANDO REDE DOCKER PARA KUBERNETE
+docker network create --subnet=172.16.0.0/24 docker_network
+
+# CRIANDO CLUSTER KUBERNETE
+minikube start -p cosme-cluster --driver=docker --nodes=4 --no-vtx-check
+kubectl config use-context cosme-cluster
+
+
+
+
+minikube start --driver=virtualbox
+minikube stop -p minikube
+minikube start -p minikube
+minikube delete -p minikube
+
+
+minikube start -p cosme-cluster --vm-driver virtualbox --nodes 4 --no-vtx-check = virtualbox
+minikube start -p cosme-cluster --driver=docker --nodes=4 --no-vtx-check = docker
+
+minikube start -p cosme-cluster
+minikube delete -p cosme-cluster
+
+minikube status
+
+minikube profile list
+kubectl get nodes
+
+
+
+
+# Habilitar o Addon de Ingress do Minikube:
+minikube addons enable ingress -p cosme-cluster
+
+
+## Architecture & Solution
+
+## Pre-reqs (stack)
+
+1. VirtualBox or similar
+2. Docker
+3. minikube
+4. kubectl
+5. Helm
+
+#### Building a K8S cluster
+
+For this purpose I am gonna use minikue to speed up the process and made easier for everyone.
+
+(shell)
+minikube start -p comes-cluster --vm-driver virtualbox --nodes 4
+
+
+Checking cluster has been created successfully
+
+(shell)
+minikube profile list
+|---------------|-----------|------------|--------------|------|---------|---------|-------|--------|
+|    Profile    | VM Driver |  Runtime   |      IP      | Port | Version | Status  | Nodes | Active |
+|---------------|-----------|------------|--------------|------|---------|---------|-------|--------|
+| comes-cluster | docker    | containerd | 192.168.49.2 | 8443 | v1.22.8 | Running |     2 |        |
+|---------------|-----------|------------|--------------|------|---------|---------|-------|--------|
+
+
+##### Listing cluster contexts
+
+(shell)
+kubectl config get-clusters
+NAME
+comes-cluster
+
+
+##### Listing cluster nodes
+
+(shell)
+kubectl get nodes
+NAME                STATUS   ROLES                  AGE     VERSION
+comes-cluster       Ready    control-plane,master   3m21s   v1.22.8
+comes-cluster-m02   Ready    <none>                 2m47s   v1.22.8
+
+
+##### Listing pods cluster-wilde and per namespace
+
+
+(shell)
+kubectl get pod -A
+
+
+(shell)
+kubectl get pod -n kube-system
+
+
+#### Exposing application
+
+In order to have a secure way to access the application as best practices an ingress controller is best way to go.
+
+Shell script para automatizar a criacao do cluster.
+
+(shell)
+minikube addon enable ingress
